@@ -53,11 +53,7 @@ def get_complete_version(version=None):
 
 
 def get_docs_version(version=None):
-    version = get_complete_version(version)
-    if version[3] != "final":
-        return "dev"
-    else:
-        return "%d.%d" % version[:2]
+    pass
 
 
 def get_git_changeset():

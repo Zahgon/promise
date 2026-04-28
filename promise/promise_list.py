@@ -45,108 +45,33 @@ class PromiseList(object):
 
     def _init_promise(self, values):
         # type: (Promise[Collection]) -> None
-        if values.is_fulfilled:
-            values = values._value()
-        elif values.is_rejected:
-            self._reject(values._reason())
-            return
-
-        self.promise._is_async_guaranteed = True
-        values._then(self._init, self._reject)
-        return
+        pass
 
     def _init(self, values):
         # type: (Collection) -> None
-        self._values = values
-        if not isinstance(values, Iterable):
-            err = Exception(
-                "PromiseList requires an iterable. Received {}.".format(repr(values))
-            )
-            self.promise._reject_callback(err, False)
-            return
-
-        if not values:
-            self._resolve([])
-            return
-
-        self._iterate(values)
-        return
+        pass
 
     def _iterate(self, values):
         # type: (Collection[Any]) -> None
-        Promise = self._promise_class
-        is_resolved = False
-
-        self._length = len(values)
-        self._values = [None] * self._length
-
-        result = self.promise
-
-        for i, val in enumerate(values):
-            if Promise.is_thenable(val):
-                maybe_promise = Promise._try_convert_to_promise(val)._target()
-                # if is_resolved:
-                #     # maybe_promise.suppressUnhandledRejections
-                #     pass
-                if maybe_promise.is_pending:
-                    maybe_promise._add_callbacks(
-                        partial(self._promise_fulfilled, i=i),
-                        partial(self._promise_rejected, promise=maybe_promise),
-                        None,
-                    )
-                    self._values[i] = maybe_promise
-                elif maybe_promise.is_fulfilled:
-                    is_resolved = self._promise_fulfilled(maybe_promise._value(), i)
-                elif maybe_promise.is_rejected:
-                    is_resolved = self._promise_rejected(maybe_promise._reason(), promise=maybe_promise)
-
-            else:
-                is_resolved = self._promise_fulfilled(val, i)
-
-            if is_resolved:
-                break
-
-        if not is_resolved:
-            result._is_async_guaranteed = True
+        pass
 
     def _promise_fulfilled(self, value, i):
         # type: (Any, int) -> bool
-        if self.is_resolved:
-            return False
-        # assert not self.is_resolved
-        # assert isinstance(self._values, Iterable)
-        # assert isinstance(i, int)
-        self._values[i] = value  # type: ignore
-        self._total_resolved += 1
-        if self._total_resolved >= self._length:
-            self._resolve(self._values)  # type: ignore
-            return True
-        return False
+        pass
 
     def _promise_rejected(self, reason, promise):
         # type: (Exception, Promise) -> bool
-        if self.is_resolved:
-            return False
-        # assert not self.is_resolved
-        # assert isinstance(self._values, Iterable)
-        self._total_resolved += 1
-        self._reject(reason, traceback=promise._target()._traceback)
-        return True
+        pass
 
     @property
     def is_resolved(self):
         # type: () -> bool
-        return self._values is None
+        pass
 
     def _resolve(self, value):
         # type: (Collection[Any]) -> None
-        assert not self.is_resolved
-        assert not isinstance(value, self._promise_class)
-        self._values = None
-        self.promise._fulfill(value)
+        pass
 
     def _reject(self, reason, traceback=None):
         # type: (Exception, Optional[TracebackType]) -> None
-        assert not self.is_resolved
-        self._values = None
-        self.promise._reject_callback(reason, False, traceback=traceback)
+        pass

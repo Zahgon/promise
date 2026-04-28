@@ -8,15 +8,7 @@ class AsyncioScheduler(object):
         self.loop = loop or get_event_loop()
 
     def call(self, fn):
-        self.loop.call_soon(fn)
+        pass
 
     def wait(self, promise, timeout=None):
-        e = Event()
-
-        def on_resolve_or_reject(_):
-            e.set()
-
-        promise._then(on_resolve_or_reject, on_resolve_or_reject)
-
-        # We can't use the timeout in Asyncio event
-        e.wait()
+        pass

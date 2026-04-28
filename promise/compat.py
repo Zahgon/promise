@@ -3,7 +3,7 @@ try:
 except ImportError:
 
     def iscoroutine(obj):  # type: ignore
-        return False
+        pass
 
 
 try:

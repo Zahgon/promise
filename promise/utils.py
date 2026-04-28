@@ -7,9 +7,7 @@ import sys
 
 def warn(msg):
     # type: (str) -> None
-    warnings.simplefilter("always", DeprecationWarning)  # turn off filter
-    warnings.warn(msg, category=DeprecationWarning, stacklevel=2)
-    warnings.simplefilter("default", DeprecationWarning)  # reset filter
+    pass
 
 
 class deprecated(object):
@@ -33,8 +31,7 @@ class deprecated(object):
 
         @functools.wraps(cls_or_func)
         def new_func(*args, **kwargs):
-            warn(msg)
-            return cls_or_func(*args, **kwargs)
+            pass
 
         return new_func
 
